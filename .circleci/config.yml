@@ -16,6 +16,6 @@ jobs:
             - run: yarn start
 
 workflows:
-  build-app:
+  build:
     jobs:
       - build
