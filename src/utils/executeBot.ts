@@ -45,6 +45,7 @@ const executeBot = async () => {
   let newData = await getData(
     "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
   );
+  T.post("statuses/update", { status: "testing" });
   // console.log(
   //   await getData("https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml")
   // );
