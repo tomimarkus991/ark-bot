@@ -1,7 +1,21 @@
 version: 2.1
+
 orbs:
   node: circleci/node@3.0.0
+
+jobs:
+  build:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: yarn
+            - run: yarn build
+            - run: yarn start
+
 workflows:
-  node-tests:
+  build-app:
     jobs:
-      - node/test
+      - build
