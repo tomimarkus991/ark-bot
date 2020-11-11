@@ -10,8 +10,8 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
-// setInterval(executeBot, 600000); //600000 = 10min
-executeBot();
+setInterval(executeBot, 600000); //600000 = 10min
+// executeBot();
 app.listen(port, () => {
   console.log(`App is listening on port ${port}!`);
 });

@@ -8,7 +8,7 @@ const executeBot_1 = __importDefault(require("./utils/executeBot"));
 require("dotenv").config();
 const app = express_1.default();
 const port = process.env.PORT || 5000;
-executeBot_1.default();
+setInterval(executeBot_1.default, 600000);
 app.listen(port, () => {
     console.log(`App is listening on port ${port}!`);
 });
