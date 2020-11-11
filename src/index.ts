@@ -8,6 +8,7 @@ app.get("/", (_, res) => {
 });
 
 setInterval(executeBot, 600000); //600000 = 10min
+executeBot();
 
 app.listen(3000, () => {
   console.log("App is listening on port 3000!");

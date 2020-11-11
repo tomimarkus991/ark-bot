@@ -1,12 +1,8 @@
 import areSame from "./areSame";
 import getData from "./getData";
 import Twit from "twit";
-import {
-  consumer_key,
-  consumer_secret,
-  access_token,
-  access_token_secret,
-} from "./config";
+
+require("dotenv").config();
 
 const executeBot = async () => {
   type ElementData = {
@@ -18,11 +14,12 @@ const executeBot = async () => {
     };
   };
   const config = {
-    consumer_key,
-    consumer_secret,
-    access_token,
-    access_token_secret,
+    consumer_key: process.env.CONSUMER_KEY as string,
+    consumer_secret: process.env.CONSUMER_SECRET as string,
+    access_token: process.env.ACCESS_TOKEN as string,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET as string,
   };
+
   const T = new Twit(config);
   const cities = [
     "Haapsalu",
@@ -45,7 +42,9 @@ const executeBot = async () => {
   let newData = await getData(
     "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
   );
-  T.post("statuses/update", { status: "testing" });
+
+  // T.post("statuses/update", { status: "test" });
+
   // console.log(
   //   await getData("https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml")
   // );
@@ -82,8 +81,13 @@ const executeBot = async () => {
     bigMessage +=
       "\n\nhttps://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml";
 
-    T.post("statuses/update", { status: bigMessage });
-    console.log(bigMessage);
+    T.post("statuses/update", { status: bigMessage }, (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(res);
+      }
+    });
 
     newFreeTimes = [];
   }
