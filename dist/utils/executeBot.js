@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const areSame_1 = __importDefault(require("./areSame"));
 const getData_1 = __importDefault(require("./getData"));
 const twit_1 = __importDefault(require("twit"));
-require("dotenv").config();
 const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
     const config = {
         consumer_key: process.env.CONSUMER_KEY,
@@ -23,6 +22,7 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
         access_token: process.env.ACCESS_TOKEN,
         access_token_secret: process.env.ACCESS_TOKEN_SECRET,
     };
+    console.log(config);
     const T = new twit_1.default(config);
     const cities = [
         "Haapsalu",

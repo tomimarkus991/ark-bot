@@ -5,12 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const executeBot_1 = __importDefault(require("./utils/executeBot"));
+require("dotenv").config();
 const app = express_1.default();
-app.get("/", (_, res) => {
-    res.send("Hello World!");
-});
-setInterval(executeBot_1.default, 600000);
-app.listen(3000, () => {
-    console.log("App is listening on port 3000!");
+const port = process.env.PORT || 5000;
+executeBot_1.default();
+app.listen(port, () => {
+    console.log(`App is listening on port ${port}!`);
 });
 //# sourceMappingURL=index.js.map
