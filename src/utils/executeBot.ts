@@ -17,7 +17,6 @@ const executeBot = async () => {
     access_token: process.env.ACCESS_TOKEN as string,
     access_token_secret: process.env.ACCESS_TOKEN_SECRET as string,
   };
-  console.log(config);
 
   const T = new Twit(config);
   const cities = [
@@ -87,6 +86,7 @@ const executeBot = async () => {
         console.log(res);
       }
     });
+    console.log(bigMessage);
 
     newFreeTimes = [];
   }

@@ -22,7 +22,6 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
         access_token: process.env.ACCESS_TOKEN,
         access_token_secret: process.env.ACCESS_TOKEN_SECRET,
     };
-    console.log(config);
     const T = new twit_1.default(config);
     const cities = [
         "Haapsalu",
@@ -71,14 +70,7 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
         });
         bigMessage +=
             "\n\nhttps://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml";
-        T.post("statuses/update", { status: bigMessage }, (err, res) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(res);
-            }
-        });
+        console.log(bigMessage);
         newFreeTimes = [];
     }
 });
