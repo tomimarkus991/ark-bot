@@ -1,17 +1,21 @@
 import express from "express";
 import executeBot from "./utils/executeBot";
-require("dotenv").config();
 
-const app = express();
+const main = async () => {
+  require("dotenv").config();
 
-app.get("/", (_, res) => {
-  res.send("Hello World!");
-});
+  const app = express();
 
-const port = process.env.PORT || 5000;
+  app.get("/", (_, res) => {
+    res.send("Hello World!");
+  });
 
-setInterval(executeBot, 120000); //600000 = 10min
-// executeBot();
-app.listen(port, () => {
-  console.log(`App is listening on port ${port}!`);
-});
+  const port = process.env.PORT || 5000;
+
+  executeBot();
+  app.listen(port, () => {
+    console.log(`App is listening on port ${port}!`);
+  });
+};
+
+main();

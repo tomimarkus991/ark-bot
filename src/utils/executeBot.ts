@@ -37,63 +37,60 @@ const executeBot = async () => {
   let initialData = await getData(
     "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
   );
-  let newData = await getData(
-    "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
-  );
+  // console.log("initialData", initialData);
 
   // T.post("statuses/update", { status: "test" });
 
   // console.log(
   //   await getData("https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml")
   // );
-
-  const _areSame = areSame(initialData, newData);
-  if (_areSame === "no changes") {
-    console.log("no changes");
-    return;
-  } else {
-    for (let i = 0; i <= Object.keys(_areSame).length - 1; i++) {
-      if (Object.keys(_areSame[i].newTimes).length > 0) {
-        newFreeTimes.push({
-          city: cities[i],
-          newTimes: _areSame[i].newTimes,
-        });
+  setInterval(async () => {
+    let newData = await getData(
+      "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
+    );
+    const _areSame = areSame(initialData, newData);
+    if (_areSame === "no changes") {
+      initialData = newData;
+      console.log("no changes");
+      return;
+    } else {
+      for (let i = 0; i <= Object.keys(_areSame).length - 1; i++) {
+        if (Object.keys(_areSame[i].newTimes).length > 0) {
+          newFreeTimes.push({
+            city: cities[i],
+            newTimes: _areSame[i].newTimes,
+          });
+        }
       }
-    }
-    initialData = newData;
-    let bigMessage = `Updated at ${newData[0].updatedAt}`;
+      let bigMessage = `Updated at ${newData[0].updatedAt}`;
+      initialData = newData;
+      newFreeTimes.forEach((newTime: ElementData) => {
+        let time1 = "",
+          time2 = "",
+          time3 = "";
+        if (newTime.newTimes.time1) time1 = newTime.newTimes.time1;
+        if (newTime.newTimes.time2) time2 = newTime.newTimes.time2;
+        if (newTime.newTimes.time3) time3 = newTime.newTimes.time3;
 
-    newFreeTimes.forEach((newTime: ElementData) => {
-      let time1 = "",
-        time2 = "",
-        time3 = "";
-      if (newTime.newTimes.time1) time1 = newTime.newTimes.time1;
-      if (newTime.newTimes.time2) time2 = newTime.newTimes.time2;
-      if (newTime.newTimes.time3) time3 = newTime.newTimes.time3;
-
-      let n = "\n   ";
-      let times = n.concat(time1, n, time2, n, time3).trim();
-      let message = `\n\n${newTime.city}:\n   ${times}`;
-      bigMessage += message;
-    });
-    bigMessage +=
-      "\n\nhttps://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml";
-
-    T.post("statuses/update", { status: bigMessage }, (err, res) => {
-      if (err) {
-        console.log(err);
+        let n = "\n   ";
+        let times = n.concat(time1, n, time2, n, time3).trim();
+        let message = `\n\n${newTime.city}:\n   ${times}`;
+        bigMessage += message;
+      });
+      bigMessage +=
+        "\n\nhttps://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml";
+      if (newFreeTimes.length >= 1) {
+        T.post("statuses/update", { status: bigMessage });
       } else {
-        console.log(res);
+        console.log("no changes");
       }
-    });
-    console.log(bigMessage);
 
-    newFreeTimes = [];
-  }
+      newFreeTimes = [];
+    }
+  }, 300000); //600000 = 10min
 };
 
 export default executeBot;
-
 // let initialData = [
 //   {
 //     city: "Haapsalu",
