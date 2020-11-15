@@ -1,4 +1,5 @@
 version: 2.1
+
 orbs:
   node: circleci/node@3.0.0
 jobs:
@@ -6,10 +7,9 @@ jobs:
     executor:
       name: node/default
     steps:
-      steps:
-        - checkout
-        - run: yarn
-        - run: yarn build
+      - checkout
+      - run: yarn
+      - run: yarn build
 workflows:
   "build-run":
     jobs:
