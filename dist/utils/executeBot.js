@@ -43,7 +43,7 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
         const _areSame = areSame_1.default(initialData, newData);
         if (_areSame === "no changes") {
             initialData = newData;
-            console.log("no changes");
+            console.log("No changes 1");
             return;
         }
         else {
@@ -55,8 +55,12 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
                     });
                 }
             }
-            let bigMessage = `Updated at ${newData[0].updatedAt}`;
+            let bigMessage = "";
             initialData = newData;
+            newFreeTimes.forEach((newTime) => {
+                bigMessage += `${newTime.city} `;
+            });
+            bigMessage += `\n\nUpdated at ${newData[0].updatedAt}`;
             newFreeTimes.forEach((newTime) => {
                 let time1 = "", time2 = "", time3 = "";
                 if (newTime.newTimes.time1)
@@ -70,17 +74,23 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
                 let message = `\n\n${newTime.city}:\n   ${times}`;
                 bigMessage += message;
             });
-            bigMessage +=
-                "\n\nhttps://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml";
+            bigMessage += `\n\nhttps://eteenindus.mnt.ee/main.jsf`;
             if (newFreeTimes.length >= 1) {
-                T.post("statuses/update", { status: bigMessage });
+                T.post("statuses/update", { status: bigMessage }, (err) => {
+                    if (err) {
+                        console.log(`Error: ${err.message}`);
+                    }
+                    else {
+                        console.log("Tweeted");
+                    }
+                });
             }
             else {
-                console.log("no changes");
+                console.log("No changes 2");
             }
             newFreeTimes = [];
         }
-    }), 300000);
+    }), 1000 * 60 * 8);
 });
 exports.default = executeBot;
 //# sourceMappingURL=executeBot.js.map

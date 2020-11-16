@@ -37,6 +37,7 @@ const executeBot = async () => {
   let initialData = await getData(
     "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
   );
+
   // console.log("initialData", initialData);
 
   // T.post("statuses/update", { status: "test" });
@@ -51,7 +52,7 @@ const executeBot = async () => {
     const _areSame = areSame(initialData, newData);
     if (_areSame === "no changes") {
       initialData = newData;
-      console.log("no changes");
+      console.log("No changes 1");
       return;
     } else {
       for (let i = 0; i <= Object.keys(_areSame).length - 1; i++) {
@@ -62,8 +63,12 @@ const executeBot = async () => {
           });
         }
       }
-      let bigMessage = `Updated at ${newData[0].updatedAt}`;
+      let bigMessage = "";
       initialData = newData;
+      newFreeTimes.forEach((newTime: ElementData) => {
+        bigMessage += `${newTime.city} `;
+      });
+      bigMessage += `\n\nUpdated at ${newData[0].updatedAt}`;
       newFreeTimes.forEach((newTime: ElementData) => {
         let time1 = "",
           time2 = "",
@@ -77,17 +82,24 @@ const executeBot = async () => {
         let message = `\n\n${newTime.city}:\n   ${times}`;
         bigMessage += message;
       });
-      bigMessage +=
-        "\n\nhttps://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml";
+      bigMessage += `\n\nhttps://eteenindus.mnt.ee/main.jsf`;
       if (newFreeTimes.length >= 1) {
-        T.post("statuses/update", { status: bigMessage });
+        T.post("statuses/update", { status: bigMessage }, (err) => {
+          if (err) {
+            console.log(`Error: ${err.message}`);
+          } else {
+            // console.log(bigMessage);
+            console.log("Tweeted");
+          }
+        });
+        // console.log(bigMessage);
       } else {
-        console.log("no changes");
+        console.log("No changes 2");
       }
 
       newFreeTimes = [];
     }
-  }, 300000); //600000 = 10min
+  }, 1000 * 60 * 8); //600000 = 10min
 };
 
 export default executeBot;
