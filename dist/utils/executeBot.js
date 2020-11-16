@@ -55,12 +55,13 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
                     });
                 }
             }
-            let bigMessage = "";
+            let tweet = "";
             initialData = newData;
             newFreeTimes.forEach((newTime) => {
-                bigMessage += `${newTime.city} `;
+                tweet += `${newTime.city} `;
             });
-            bigMessage += `\n\nUpdated at ${newData[0].updatedAt}`;
+            let updatedAt = newData[0].updatedAt.replace(/(?:(?:.20|.21)[0-9]{2})/g, "");
+            tweet += `\n\nUpdated at ${updatedAt}`;
             newFreeTimes.forEach((newTime) => {
                 let time1 = "", time2 = "", time3 = "";
                 if (newTime.newTimes.time1)
@@ -72,11 +73,11 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
                 let n = "\n   ";
                 let times = n.concat(time1, n, time2, n, time3).trim();
                 let message = `\n\n${newTime.city}:\n   ${times}`;
-                bigMessage += message;
+                tweet += message;
             });
-            bigMessage += `\n\nhttps://eteenindus.mnt.ee/main.jsf`;
+            tweet += `\n\nhttps://eteenindus.mnt.ee/main.jsf`;
             if (newFreeTimes.length >= 1) {
-                T.post("statuses/update", { status: bigMessage }, (err) => {
+                T.post("statuses/update", { status: tweet }, (err) => {
                     if (err) {
                         console.log(`Error: ${err.message}`);
                     }

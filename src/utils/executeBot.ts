@@ -11,6 +11,7 @@ const executeBot = async () => {
       time3: string;
     };
   };
+
   const config = {
     consumer_key: process.env.CONSUMER_KEY as string,
     consumer_secret: process.env.CONSUMER_SECRET as string,
@@ -19,6 +20,7 @@ const executeBot = async () => {
   };
 
   const T = new Twit(config);
+
   const cities = [
     "Haapsalu",
     "Jõhvi",
@@ -32,23 +34,18 @@ const executeBot = async () => {
     "Viljandi",
     "Võru",
   ];
+
   let newFreeTimes: any[] = [];
 
   let initialData = await getData(
     "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
   );
 
-  // console.log("initialData", initialData);
-
-  // T.post("statuses/update", { status: "test" });
-
-  // console.log(
-  //   await getData("https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml")
-  // );
   setInterval(async () => {
     let newData = await getData(
       "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
     );
+
     const _areSame = areSame(initialData, newData);
     if (_areSame === "no changes") {
       initialData = newData;
@@ -63,12 +60,25 @@ const executeBot = async () => {
           });
         }
       }
-      let bigMessage = "";
+      let tweet = "";
       initialData = newData;
+
+      // Shows all the Cities that have new Driving Times Available
       newFreeTimes.forEach((newTime: ElementData) => {
-        bigMessage += `${newTime.city} `;
+        tweet += `${newTime.city} `;
       });
-      bigMessage += `\n\nUpdated at ${newData[0].updatedAt}`;
+
+      // Removes Year from the Updated At Time
+      let updatedAt = newData[0].updatedAt.replace(
+        /(?:(?:.20|.21)[0-9]{2})/g,
+        ""
+      );
+
+      // Adds Updated at to the Tweet
+      tweet += `\n\nUpdated at ${updatedAt}`;
+
+      // Adds city and driving test times
+      // for every city and adds them to the tweet
       newFreeTimes.forEach((newTime: ElementData) => {
         let time1 = "",
           time2 = "",
@@ -80,29 +90,36 @@ const executeBot = async () => {
         let n = "\n   ";
         let times = n.concat(time1, n, time2, n, time3).trim();
         let message = `\n\n${newTime.city}:\n   ${times}`;
-        bigMessage += message;
+        tweet += message;
       });
-      bigMessage += `\n\nhttps://eteenindus.mnt.ee/main.jsf`;
+
+      // Adds a Link to the tweet to get to MNT e-teenindus
+      tweet += `\n\nhttps://eteenindus.mnt.ee/main.jsf`;
+
+      // When there are new Times for atleast 1 city, bot will tweet.
       if (newFreeTimes.length >= 1) {
-        T.post("statuses/update", { status: bigMessage }, (err) => {
+        T.post("statuses/update", { status: tweet }, (err) => {
           if (err) {
             console.log(`Error: ${err.message}`);
           } else {
-            // console.log(bigMessage);
+            // console.log(tweet);
             console.log("Tweeted");
           }
         });
-        // console.log(bigMessage);
+        // console.log(tweet);
       } else {
         console.log("No changes 2");
       }
-
+      // Resets new driving test times
       newFreeTimes = [];
     }
-  }, 1000 * 60 * 8); //600000 = 10min
+  }, 1000 * 60 * 8); // every 8 minutes
 };
 
 export default executeBot;
+
+// Data for Testing
+
 // let initialData = [
 //   {
 //     city: "Haapsalu",
