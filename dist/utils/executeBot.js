@@ -82,9 +82,11 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
                 T.post("statuses/update", { status: tweet }, (err) => {
                     if (err) {
                         console.log(`Error: ${err.message}`);
+                        console.log(tweet);
                     }
                     else {
                         console.log("Tweeted");
+                        console.log(tweet);
                     }
                 });
             }

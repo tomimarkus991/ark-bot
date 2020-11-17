@@ -107,9 +107,11 @@ const executeBot = async () => {
         T.post("statuses/update", { status: tweet }, (err) => {
           if (err) {
             console.log(`Error: ${err.message}`);
+            console.log(tweet);
           } else {
             // console.log(tweet);
             console.log("Tweeted");
+            console.log(tweet);
           }
         });
         // console.log(tweet);
