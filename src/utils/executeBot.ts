@@ -74,8 +74,14 @@ const executeBot = async () => {
         ""
       );
 
+      // 17:53
+      let updatedAtTime = updatedAt.slice(6, 11);
+
+      // 04.11
+      let updatedAtDate = updatedAt.slice(0, 5);
+
       // Adds Updated at to the Tweet
-      tweet += `\n\nUpdated at ${updatedAt}`;
+      tweet += `\n\nUpdated at ${updatedAtTime} ${updatedAtDate}`;
 
       // Adds city and driving test times
       // for every city and adds them to the tweet
@@ -113,7 +119,7 @@ const executeBot = async () => {
       // Resets new driving test times
       newFreeTimes = [];
     }
-  }, 1000 * 60 * 8); // every 8 minutes
+  }, 1000 * 60 * 8); // every 8 minutes 1000 * 60 * 8
 };
 
 export default executeBot;
@@ -149,6 +155,7 @@ export default executeBot;
 //     },
 //   },
 // ];
+
 // let newData = [
 //   {
 //     city: "Haapsalu",

@@ -61,7 +61,9 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
                 tweet += `${newTime.city} `;
             });
             let updatedAt = newData[0].updatedAt.replace(/(?:(?:.20|.21)[0-9]{2})/g, "");
-            tweet += `\n\nUpdated at ${updatedAt}`;
+            let updatedAtTime = updatedAt.slice(6, 11);
+            let updatedAtDate = updatedAt.slice(0, 5);
+            tweet += `\n\nUpdated at ${updatedAtTime} ${updatedAtDate}`;
             newFreeTimes.forEach((newTime) => {
                 let time1 = "", time2 = "", time3 = "";
                 if (newTime.newTimes.time1)
