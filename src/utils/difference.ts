@@ -1,6 +1,7 @@
 const difference = (_array1: [], _array2: []) => {
   const result: any = {};
 
+  // if the objects are same return undefiened
   if (Object.is(_array1, _array2)) {
     return undefined;
   }

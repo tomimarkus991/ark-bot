@@ -107,14 +107,21 @@ const executeBot = async () => {
         T.post("statuses/update", { status: tweet }, (err) => {
           if (err) {
             console.log(`Error: ${err.message}`);
-            console.log(tweet);
+            if (err.message.includes("Tweet needs to be a bit shorter")) {
+              let firstHalf = tweet.slice(0, 264);
+              let secondHalf = tweet.slice(264, tweet.length);
+              secondHalf += "\nThis tweet got a little too big. Sorry!";
+              T.post("statuses/update", { status: secondHalf });
+              // Tweets first half 2 seconds later
+              setTimeout(() => {
+                T.post("statuses/update", { status: firstHalf });
+                console.log("posted firstHalf");
+              }, 2000);
+            }
           } else {
-            // console.log(tweet);
             console.log("Tweeted");
-            console.log(tweet);
           }
         });
-        // console.log(tweet);
       } else {
         console.log("No changes 2");
       }
