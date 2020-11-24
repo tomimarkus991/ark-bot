@@ -128,7 +128,7 @@ const executeBot = async () => {
       // Resets new driving test times
       newFreeTimes = [];
     }
-  }, 1000 * 60 * 8); // every 8 minutes 1000 * 60 * 8
+  }, 1000 * 60 * 2); // every 8 minutes 1000 * 60 * 8
 };
 
 export default executeBot;

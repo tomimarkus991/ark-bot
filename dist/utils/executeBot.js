@@ -103,7 +103,7 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             newFreeTimes = [];
         }
-    }), 1000 * 60 * 8);
+    }), 1000 * 60 * 2);
 });
 exports.default = executeBot;
 //# sourceMappingURL=executeBot.js.map
