@@ -109,8 +109,8 @@ const executeBot = async () => {
           if (err) {
             console.log(`Error: ${err.message}`);
             if (err.message.includes("Tweet needs to be a bit shorter")) {
-              let firstTweet = tweet.slice(0, 264);
-              let secondTweet = tweet.slice(264, 500);
+              let firstTweet = tweet.slice(0, 257);
+              let secondTweet = tweet.slice(257, 500);
               let thirdTweet = tweet.slice(500, 750);
               let fourthTweet = tweet.slice(750, tweet.length);
 
