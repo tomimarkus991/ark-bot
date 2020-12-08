@@ -116,17 +116,20 @@ const executeBot = async () => {
 
               if (fourthTweet) {
                 T.post("statuses/update", { status: fourthTweet });
-              } else if (thirdTweet) {
+              }
+              if (thirdTweet) {
                 setTimeout(() => {
                   T.post("statuses/update", { status: thirdTweet });
                   console.log("posted secondTweet");
                 }, 1500);
-              } else if (secondTweet) {
+              }
+              if (secondTweet) {
                 setTimeout(() => {
                   T.post("statuses/update", { status: secondTweet });
                   console.log("posted secondTweet");
                 }, 3000);
-              } else if (firstTweet) {
+              }
+              if (firstTweet) {
                 setTimeout(() => {
                   T.post("statuses/update", { status: firstTweet });
                   console.log("posted firstTweet");
