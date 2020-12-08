@@ -109,21 +109,30 @@ const executeBot = async () => {
           if (err) {
             console.log(`Error: ${err.message}`);
             if (err.message.includes("Tweet needs to be a bit shorter")) {
-              let firstHalf = tweet.slice(0, 264);
-              let secondHalf = tweet.slice(264, 500);
-              let thirdHalf = tweet.slice(500, tweet.length);
-              // secondHalf += "\nThis tweet got a little too big. Sorry!";
-              T.post("statuses/update", { status: thirdHalf });
-              // Tweets second half 2 seconds later
+              let firstTweet = tweet.slice(0, 264);
+              let secondTweet = tweet.slice(264, 500);
+              let thirdTweet = tweet.slice(500, 750);
+              let fourthTweet = tweet.slice(750, tweet.length);
+
+              if (fourthTweet) {
+                T.post("statuses/update", { status: fourthTweet });
+              }
+              if (thirdTweet) {
+                setTimeout(() => {
+                  T.post("statuses/update", { status: thirdTweet });
+                  console.log("posted secondTweet");
+                }, 1500);
+              }
+              if (secondTweet) {
+                setTimeout(() => {
+                  T.post("statuses/update", { status: secondTweet });
+                  console.log("posted secondTweet");
+                }, 3000);
+              }
               setTimeout(() => {
-                T.post("statuses/update", { status: secondHalf });
-                console.log("posted secondHalf");
-              }, 1500);
-              // Tweets first half 2 seconds later
-              setTimeout(() => {
-                T.post("statuses/update", { status: firstHalf });
-                console.log("posted firstHalf");
-              }, 3000);
+                T.post("statuses/update", { status: firstTweet });
+                console.log("posted firstTweet");
+              }, 4500);
             }
           } else {
             console.log("Tweeted");
