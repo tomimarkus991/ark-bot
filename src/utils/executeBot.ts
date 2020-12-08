@@ -25,6 +25,7 @@ const executeBot = async () => {
     "Haapsalu",
     "Jõhvi",
     "Kuressaare",
+    "Kärdla",
     "Narva",
     "Paide",
     "Pärnu",
@@ -109,14 +110,20 @@ const executeBot = async () => {
             console.log(`Error: ${err.message}`);
             if (err.message.includes("Tweet needs to be a bit shorter")) {
               let firstHalf = tweet.slice(0, 264);
-              let secondHalf = tweet.slice(264, tweet.length);
-              secondHalf += "\nThis tweet got a little too big. Sorry!";
-              T.post("statuses/update", { status: secondHalf });
+              let secondHalf = tweet.slice(264, 500);
+              let thirdHalf = tweet.slice(500, tweet.length);
+              // secondHalf += "\nThis tweet got a little too big. Sorry!";
+              T.post("statuses/update", { status: thirdHalf });
+              // Tweets second half 2 seconds later
+              setTimeout(() => {
+                T.post("statuses/update", { status: secondHalf });
+                console.log("posted secondHalf");
+              }, 1500);
               // Tweets first half 2 seconds later
               setTimeout(() => {
                 T.post("statuses/update", { status: firstHalf });
                 console.log("posted firstHalf");
-              }, 2000);
+              }, 3000);
             }
           } else {
             console.log("Tweeted");
