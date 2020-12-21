@@ -25,7 +25,6 @@ const executeBot = async () => {
     "Haapsalu",
     "Jõhvi",
     "Kuressaare",
-    "Kärdla",
     "Narva",
     "Paide",
     "Pärnu",
@@ -64,7 +63,7 @@ const executeBot = async () => {
       let tweet = "";
       initialData = newData;
 
-      // Shows all the Cities that have new Driving Times Available
+      // Shows all the cities that have new Driving Times Available
       newFreeTimes.forEach((newTime: ElementData) => {
         tweet += `${newTime.city} `;
       });
