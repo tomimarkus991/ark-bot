@@ -11,7 +11,10 @@ const getData = async (link: string) => {
 
   let data: any = [];
 
-  for (let i = 1; i <= 11; i++) {
+  const howManyCities = $(`div > table > tbody`)[0].children.length;
+
+  let cities: any = [];
+  for (let i = 1; i <= howManyCities; i++) {
     const city = $(
       `tr.ui-widget-content:nth-child(${i}) > td:nth-child(1) > span:nth-child(1)`
     ).text();
@@ -25,10 +28,12 @@ const getData = async (link: string) => {
       `tr.ui-widget-content:nth-child(${i}) > td:nth-child(5)`
     ).text();
 
+    cities.push(city);
     const times = { city, updatedAt, newTimes: { time1, time2, time3 } };
     data.push(times);
   }
-  return data;
+
+  return { data, cities };
 };
 
 export default getData;

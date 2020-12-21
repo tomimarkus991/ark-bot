@@ -23,26 +23,13 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
         access_token_secret: process.env.ACCESS_TOKEN_SECRET,
     };
     const T = new twit_1.default(config);
-    const cities = [
-        "Haapsalu",
-        "Jõhvi",
-        "Kuressaare",
-        "Narva",
-        "Paide",
-        "Pärnu",
-        "Rakvere",
-        "Tallinn",
-        "Tartu",
-        "Viljandi",
-        "Võru",
-    ];
     let newFreeTimes = [];
     let initialData = yield getData_1.default("https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml");
     setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         let newData = yield getData_1.default("https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml");
-        const _areSame = areSame_1.default(initialData, newData);
+        const _areSame = areSame_1.default(initialData.data, newData.data);
         if (_areSame === "no changes") {
-            initialData = newData;
+            initialData.data = newData.data;
             console.log("No changes 1");
             return;
         }
@@ -50,17 +37,17 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
             for (let i = 0; i <= Object.keys(_areSame).length - 1; i++) {
                 if (Object.keys(_areSame[i].newTimes).length > 0) {
                     newFreeTimes.push({
-                        city: cities[i],
+                        city: newData.cities[i],
                         newTimes: _areSame[i].newTimes,
                     });
                 }
             }
             let tweet = "";
-            initialData = newData;
+            initialData.data = newData.data;
             newFreeTimes.forEach((newTime) => {
                 tweet += `${newTime.city} `;
             });
-            let updatedAt = newData[0].updatedAt.replace(/(?:(?:.20|.21)[0-9]{2})/g, "");
+            let updatedAt = newData.data[0].updatedAt.replace(/(?:(?:.20|.21)[0-9]{2})/g, "");
             let updatedAtTime = updatedAt.slice(6, 11);
             let updatedAtDate = updatedAt.slice(0, 5);
             tweet += `\n\nUpdated at ${updatedAtTime} ${updatedAtDate}`;
@@ -83,14 +70,28 @@ const executeBot = () => __awaiter(void 0, void 0, void 0, function* () {
                     if (err) {
                         console.log(`Error: ${err.message}`);
                         if (err.message.includes("Tweet needs to be a bit shorter")) {
-                            let firstHalf = tweet.slice(0, 264);
-                            let secondHalf = tweet.slice(264, tweet.length);
-                            secondHalf += "\nThis tweet got a little too big. Sorry!";
-                            T.post("statuses/update", { status: secondHalf });
-                            setTimeout(() => {
-                                T.post("statuses/update", { status: firstHalf });
-                                console.log("posted firstHalf");
-                            }, 2000);
+                            let firstTweet = tweet.slice(0, 257);
+                            let secondTweet = tweet.slice(257, 500);
+                            let thirdTweet = tweet.slice(500, 750);
+                            let fourthTweet = tweet.slice(750, tweet.length);
+                            if (fourthTweet) {
+                                T.post("statuses/update", { status: fourthTweet });
+                            }
+                            if (thirdTweet) {
+                                setTimeout(() => {
+                                    T.post("statuses/update", { status: thirdTweet });
+                                }, 1500);
+                            }
+                            if (secondTweet) {
+                                setTimeout(() => {
+                                    T.post("statuses/update", { status: secondTweet });
+                                }, 3000);
+                            }
+                            if (firstTweet) {
+                                setTimeout(() => {
+                                    T.post("statuses/update", { status: firstTweet });
+                                }, 4500);
+                            }
                         }
                     }
                     else {

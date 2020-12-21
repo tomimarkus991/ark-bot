@@ -21,15 +21,18 @@ const getData = (link) => __awaiter(void 0, void 0, void 0, function* () {
         .text()
         .slice(23, 40);
     let data = [];
-    for (let i = 1; i <= 11; i++) {
+    const howManyCities = $(`div > table > tbody`)[0].children.length;
+    let cities = [];
+    for (let i = 1; i <= howManyCities; i++) {
         const city = $(`tr.ui-widget-content:nth-child(${i}) > td:nth-child(1) > span:nth-child(1)`).text();
         const time1 = $(`tr.ui-widget-content:nth-child(${i}) > td:nth-child(3)`).text();
         const time2 = $(`tr.ui-widget-content:nth-child(${i}) > td:nth-child(4)`).text();
         const time3 = $(`tr.ui-widget-content:nth-child(${i}) > td:nth-child(5)`).text();
+        cities.push(city);
         const times = { city, updatedAt, newTimes: { time1, time2, time3 } };
         data.push(times);
     }
-    return data;
+    return { data, cities };
 });
 exports.default = getData;
 //# sourceMappingURL=getData.js.map

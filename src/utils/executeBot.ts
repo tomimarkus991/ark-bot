@@ -21,20 +21,6 @@ const executeBot = async () => {
 
   const T = new Twit(config);
 
-  const cities = [
-    "Haapsalu",
-    "Jõhvi",
-    "Kuressaare",
-    "Narva",
-    "Paide",
-    "Pärnu",
-    "Rakvere",
-    "Tallinn",
-    "Tartu",
-    "Viljandi",
-    "Võru",
-  ];
-
   let newFreeTimes: any[] = [];
 
   let initialData = await getData(
@@ -46,22 +32,22 @@ const executeBot = async () => {
       "https://eteenindus.mnt.ee/public/vabadSoidueksamiajad.xhtml"
     );
 
-    const _areSame = areSame(initialData, newData);
+    const _areSame = areSame(initialData.data, newData.data);
     if (_areSame === "no changes") {
-      initialData = newData;
+      initialData.data = newData.data;
       console.log("No changes 1");
       return;
     } else {
       for (let i = 0; i <= Object.keys(_areSame).length - 1; i++) {
         if (Object.keys(_areSame[i].newTimes).length > 0) {
           newFreeTimes.push({
-            city: cities[i],
+            city: newData.cities[i],
             newTimes: _areSame[i].newTimes,
           });
         }
       }
       let tweet = "";
-      initialData = newData;
+      initialData.data = newData.data;
 
       // Shows all the cities that have new Driving Times Available
       newFreeTimes.forEach((newTime: ElementData) => {
@@ -69,7 +55,7 @@ const executeBot = async () => {
       });
 
       // Removes Year from the Updated At Time
-      let updatedAt = newData[0].updatedAt.replace(
+      let updatedAt = newData.data[0].updatedAt.replace(
         /(?:(?:.20|.21)[0-9]{2})/g,
         ""
       );
@@ -115,23 +101,24 @@ const executeBot = async () => {
 
               if (fourthTweet) {
                 T.post("statuses/update", { status: fourthTweet });
+                // console.log(fourthTweet);
               }
               if (thirdTweet) {
                 setTimeout(() => {
                   T.post("statuses/update", { status: thirdTweet });
-                  console.log("posted secondTweet");
+                  // console.log(thirdTweet);
                 }, 1500);
               }
               if (secondTweet) {
                 setTimeout(() => {
                   T.post("statuses/update", { status: secondTweet });
-                  console.log("posted secondTweet");
+                  // console.log(secondTweet);
                 }, 3000);
               }
               if (firstTweet) {
                 setTimeout(() => {
                   T.post("statuses/update", { status: firstTweet });
-                  console.log("posted firstTweet");
+                  // console.log(firstTweet);
                 }, 4500);
               }
             }
