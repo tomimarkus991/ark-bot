@@ -11,7 +11,7 @@ const getData = async (link: string) => {
 
   let data: any = [];
 
-  for (let i = 1; i <= 11; i++) {
+  for (let i = 1; i <= 10; i++) {
     const city = $(
       `tr.ui-widget-content:nth-child(${i}) > td:nth-child(1) > span:nth-child(1)`
     ).text();
