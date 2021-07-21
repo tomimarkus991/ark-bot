@@ -1,5 +1,5 @@
-import AreSame from './AreSame';
-import GetData from './GetData';
+import AreSame from './areSame';
+import GetData from './getData';
 import Twit from 'twit';
 import { ElementData } from '../types/types';
 
@@ -11,7 +11,7 @@ const ExecuteBot = async () => {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET as string,
   };
 
-  const T = new Twit(config);
+  // const T = new Twit(config);
 
   let newFreeTimes: ElementData[] = [];
 
@@ -81,46 +81,48 @@ const ExecuteBot = async () => {
       tweet += `\n\nhttps://eteenindus.mnt.ee/main.jsf`;
 
       // When there are new Times for atleast 1 city, bot will tweet.
-      if (newFreeTimes.length >= 1) {
-        T.post('statuses/update', { status: tweet }, err => {
-          if (err) {
-            console.log(`Error: ${err.message}`);
-            if (err.message.includes('Tweet needs to be a bit shorter')) {
-              let firstTweet = tweet.slice(0, 257);
-              let secondTweet = tweet.slice(257, 500);
-              let thirdTweet = tweet.slice(500, 750);
-              let fourthTweet = tweet.slice(750, tweet.length);
 
-              if (fourthTweet) {
-                T.post('statuses/update', { status: fourthTweet });
-                // console.log(fourthTweet);
-              }
-              if (thirdTweet) {
-                setTimeout(() => {
-                  T.post('statuses/update', { status: thirdTweet });
-                  // console.log(thirdTweet);
-                }, 1500);
-              }
-              if (secondTweet) {
-                setTimeout(() => {
-                  T.post('statuses/update', { status: secondTweet });
-                  // console.log(secondTweet);
-                }, 3000);
-              }
-              if (firstTweet) {
-                setTimeout(() => {
-                  T.post('statuses/update', { status: firstTweet });
-                  // console.log(firstTweet);
-                }, 4500);
-              }
-            }
-          } else {
-            console.log('Tweeted');
-          }
-        });
-      } else {
-        console.log('No changes 2');
-      }
+      // if (newFreeTimes.length >= 1) {
+      //   T.post('statuses/update', { status: tweet }, err => {
+      //     if (err) {
+      //       console.log(`Error: ${err.message}`);
+      //       if (err.message.includes('Tweet needs to be a bit shorter')) {
+      //         let firstTweet = tweet.slice(0, 257);
+      //         let secondTweet = tweet.slice(257, 500);
+      //         let thirdTweet = tweet.slice(500, 750);
+      //         let fourthTweet = tweet.slice(750, tweet.length);
+
+      //         if (fourthTweet) {
+      //           T.post('statuses/update', { status: fourthTweet });
+      //           // console.log(fourthTweet);
+      //         }
+      //         if (thirdTweet) {
+      //           setTimeout(() => {
+      //             T.post('statuses/update', { status: thirdTweet });
+      //             // console.log(thirdTweet);
+      //           }, 1500);
+      //         }
+      //         if (secondTweet) {
+      //           setTimeout(() => {
+      //             T.post('statuses/update', { status: secondTweet });
+      //             // console.log(secondTweet);
+      //           }, 3000);
+      //         }
+      //         if (firstTweet) {
+      //           setTimeout(() => {
+      //             T.post('statuses/update', { status: firstTweet });
+      //             // console.log(firstTweet);
+      //           }, 4500);
+      //         }
+      //       }
+      //     } else {
+      //       console.log('Tweeted');
+      //     }
+      //   });
+      // } else {
+      //   console.log('No changes 2');
+      // }
+
       // Resets new driving test times
       newFreeTimes = [];
     }

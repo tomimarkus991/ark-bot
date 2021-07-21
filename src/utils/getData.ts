@@ -13,7 +13,7 @@ const GetData = async (link: string) => {
   let data: Data[] = [];
 
   // Counts how many cities are on the page
-  const howManyCities = $(`div > table > tbody`)[0].children.length;
+  const howManyCities: number = $(`div > table > tbody > tr`).length;
 
   let cities: string[] = [];
   for (let i = 1; i <= howManyCities; i++) {

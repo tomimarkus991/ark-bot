@@ -1,4 +1,4 @@
-import Difference from './Difference';
+import Difference from './difference';
 
 const AreSame = (array1: any, array2: any) => {
   if (JSON.stringify(array1) === JSON.stringify(array2)) {

@@ -1,5 +1,5 @@
 import express from 'express';
-import ExecuteBot from './utils/ExecuteBot';
+import ExecuteBot from './utils/executeBot';
 
 const main = async () => {
   require('dotenv').config();
