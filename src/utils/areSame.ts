@@ -1,11 +1,11 @@
-import difference from "./difference";
+import Difference from './Difference';
 
-const areSame = (array1: any, array2: any) => {
+const AreSame = (array1: any, array2: any) => {
   if (JSON.stringify(array1) === JSON.stringify(array2)) {
-    return "no changes";
+    return 'no changes';
   } else {
-    return difference(array1, array2);
+    return Difference(array1, array2);
   }
 };
 
-export default areSame;
+export default AreSame;

@@ -1,7 +1,8 @@
-import cheerio from "cheerio";
-import request from "request-promise";
+import cheerio from 'cheerio';
+import request from 'request-promise';
+import { Data } from '../types/types';
 
-const getData = async (link: string) => {
+const GetData = async (link: string) => {
   const result = await request.get(link);
   const $ = cheerio.load(result);
 
@@ -9,31 +10,43 @@ const getData = async (link: string) => {
     .text()
     .slice(23, 40);
 
-  let data: any = [];
+  let data: Data[] = [];
 
+  // Counts how many cities are on the page
   const howManyCities = $(`div > table > tbody`)[0].children.length;
 
-  let cities: any = [];
+  let cities: string[] = [];
   for (let i = 1; i <= howManyCities; i++) {
+    // Gets Driving Test City
     const city = $(
-      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(1) > span:nth-child(1)`
-    ).text();
-    const time1 = $(
-      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(3)`
-    ).text();
-    const time2 = $(
-      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(4)`
-    ).text();
-    const time3 = $(
-      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(5)`
+      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(1) > span:nth-child(1)`,
     ).text();
 
+    // Gets First Driving test time
+    const time1 = $(
+      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(3)`,
+    ).text();
+
+    // Gets Second Driving test time
+    const time2 = $(
+      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(4)`,
+    ).text();
+
+    // Gets Third Driving test time
+    const time3 = $(
+      `tr.ui-widget-content:nth-child(${i}) > td:nth-child(5)`,
+    ).text();
+
+    // Pushes Cities to Array
     cities.push(city);
+    // Formats Test Times
     const times = { city, updatedAt, newTimes: { time1, time2, time3 } };
+
+    // Pushes formated times to Array
     data.push(times);
   }
 
   return { data, cities };
 };
 
-export default getData;
+export default GetData;

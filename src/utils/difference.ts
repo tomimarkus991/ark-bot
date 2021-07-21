@@ -1,4 +1,4 @@
-const difference = (_array1: [], _array2: []) => {
+const Difference = (_array1: [], _array2: []) => {
   const result: any = {};
 
   // if the objects are same return undefiened
@@ -6,7 +6,7 @@ const difference = (_array1: [], _array2: []) => {
     return undefined;
   }
 
-  if (!_array2 || typeof _array2 !== "object") {
+  if (!_array2 || typeof _array2 !== 'object') {
     return _array2;
   }
 
@@ -20,10 +20,10 @@ const difference = (_array1: [], _array2: []) => {
         result[key] = _array2[key];
       }
       if (
-        typeof _array2[key] === "object" &&
-        typeof _array1[key] === "object"
+        typeof _array2[key] === 'object' &&
+        typeof _array1[key] === 'object'
       ) {
-        const value = difference(_array1[key], _array2[key]);
+        const value = Difference(_array1[key], _array2[key]);
         if (value !== undefined) {
           result[key] = value;
         }
@@ -32,4 +32,4 @@ const difference = (_array1: [], _array2: []) => {
   return result;
 };
 
-export default difference;
+export default Difference;
